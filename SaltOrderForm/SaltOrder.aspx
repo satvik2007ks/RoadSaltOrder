@@ -5,22 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Road Salt Order Form</title>
-    <link href="CSS/bootstrap.min.css" rel="stylesheet" />
+
     <%--<link rel="STYLESHEET" type="text/css" href="http://www.mmd.admin.state.mn.us/common.css">--%>
     <%--<script src="Scripts/angular.js"></script>--%>
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/Script.js"></script>
     <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <link href="CSS/bootstrap.min.css" rel="stylesheet" />
     <script src="Scripts/bootstrap-formhelpers-phone.js"></script>
     <link runat="server" rel="shortcut icon" href="Images/faviconLogo.ico" type="image/x-icon" />
     <link runat="server" rel="icon" href="Images/faviconLogo.ico" type="image/ico" />
-     <meta http-equiv="X-UA-Compatible" content="IE=10" />
-    <script type="text/javascript">
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <%-- <script type="text/javascript">
         history.pushState(null, null, document.URL);
         window.addEventListener('popstate', function () {
             history.pushState(null, null, document.URL);
         });
-    </script>
+    </script>--%>
     <style>
         .mmdheader, td {
             margin-left: 0px;
@@ -235,7 +237,7 @@
         <asp:MultiView ID="MultiView1" runat="server">
             <asp:View ID="View1" runat="server">
                 <form id="form1" runat="server">
-                    <div class="container" style="min-height: 375px;">
+                    <div class="container-fluid" style="min-height: 375px;">
                         <div class="row" style="margin-top: 10%">
                             <div class="row">
                                 <div class="col-md-12">
@@ -276,12 +278,12 @@
 
             </asp:View>
             <asp:View ID="View2" runat="server">
-                <form id="form2" data-ng-submit="saveAll()">
-                    <div class="container">
+                <form id="form2" runat="server" data-ng-submit="saveAll()">
+                    <div class="col-md-10 col-md-offset-1">
                         <div>
                             <div class="col-md-12">
                                 <h4>Order Placement</h4>
-                                <p style="color: orange">List the name and contact information of individual who is responsible for order placement</p>
+                                <p style="color: orange">List the primary contact information of individual who is responsible for order placement.</p>
                             </div>
                         </div>
                         <div>
@@ -289,11 +291,12 @@
                                 <table class="table table-striped table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Agency Point of Contact</th>
+                                            <th>Primary Agency Contact</th>
                                             <th>Email</th>
                                             <th>Direct Phone (Preferred)</th>
                                             <th>Alternate Phone (Other)</th>
-                                            <th>Are you City / Country / Other ?</th>
+                                            <th>Are you City / County / Other ?</th>
+                                            <th>MnDOT District</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -314,12 +317,55 @@
                                                     <option value="Other">Other</option>
                                                 </select>
                                             </td>
+                                            <td>
+                                                <asp:DropDownList ID="ddlMnDotDistrict" runat="server" CssClass="form-control" ng-init="opmndotdistrict=-1" data-ng-model="opmndotdistrict"></asp:DropDownList>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <div class="col-md-12">
+                                <p style="color: orange">List alternative contact information.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-12">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Agency Contact Alternate</th>
+                                            <th>Email</th>
+                                            <th>Direct Phone (Preferred)</th>
+                                            <th>Alternate Phone</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control" data-ng-model="opaltagencypoc" /></td>
+                                            <td>
+                                                <input type="email" class="form-control" data-ng-model="opaltemail" /></td>
+                                            <td>
+                                                <input id="txtAltOpPhone" type="text" class="form-control bfh-phone" data-format=" (ddd) ddd-dddd" data-ng-model="opaltphone" /></td>
+                                            <td>
+                                                <input id="txtAltOpAltPhone" type="text" class="form-control bfh-phone" data-format=" (ddd) ddd-dddd" data-ng-model="opaltalternatephone" />
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <br />
+
+
+
+
+
                         <div>
                             <div class="col-md-12">
                                 <h4>Contract Obligation</h4>
@@ -373,6 +419,11 @@
                                             <th style="width: 215px">TREATED SALT<br />
                                                 <small>Guarantee 80% min / 120% max</small><br />
                                                 Estimated Annual Usage</th>
+                                            <th>Able to take Early Fill?</th>
+                                            <th style="width: 215px">UNTREATED SALT Early Fill Quantity<br />
+                                            </th>
+                                            <th style="width: 215px">TREATED SALT Early Fill Quantity<br />
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -399,10 +450,10 @@
                                             <td>
                                                 <div class="form-inline">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" maxlength="8" style="width: 90px" data-ng-model="orderDetail.untreatedsaltqty" required="required" onkeypress="return AllowNumbersOnly(event)" />
+                                                        <input type="text" class="form-control" maxlength="8" style="width: 70px" data-ng-model="orderDetail.untreatedsaltqty" required="required" onkeypress="return AllowNumbersOnly(event)" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <select class="form-control" style="width: 100px" data-ng-model="orderDetail.untreatedqtyType" disabled="disabled">
+                                                        <select class="form-control" style="width: 90px" data-ng-model="orderDetail.untreatedqtyType" disabled="disabled">
                                                             <option selected="selected" value="TONs">TONs</option>
                                                         </select>
                                                     </div>
@@ -411,10 +462,37 @@
                                             <td>
                                                 <div class="form-inline">
                                                     <div class="form-group">
-                                                        <input type="text" class="form-control" maxlength="8" style="width: 90px" data-ng-model="orderDetail.treatedsaltqty" required="required" onkeypress="return AllowNumbersOnly(event)" />
+                                                        <input type="text" class="form-control" maxlength="8" style="width: 70px" data-ng-model="orderDetail.treatedsaltqty" required="required" onkeypress="return AllowNumbersOnly(event)" />
                                                     </div>
                                                     <div class="form-group">
-                                                        <select class="form-control" style="width: 100px" data-ng-model="orderDetail.treatedqtyType" disabled="disabled">
+                                                        <select class="form-control" style="width: 90px" data-ng-model="orderDetail.treatedqtyType" disabled="disabled">
+                                                            <option selected="selected" value="TONs">TONs</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input style="align-content: center; width: 100px;" type="checkbox" data-ng-model="orderDetail.earlyFill" data-ng-change="earlyFillCheck(orderDetail)" /></td>
+
+                                            <td>
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" data-ng-model="orderDetail.earlyFilluntreatedsaltqty" data-ng-disabled="orderDetail.earlyfilluntreatedsaltdisabled" maxlength="8" style="width: 70px" onkeypress="return AllowNumbersOnly(event)" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select class="form-control" style="width: 90px" data-ng-model="orderDetail.earlyFilluntreatedsaltqtyType" disabled="disabled">
+                                                            <option selected="selected" value="TONs">TONs</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-inline">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" data-ng-model="orderDetail.earlyFilltreatedsaltqty" data-ng-disabled="orderDetail.earlyfilltreatedsaltdisabled" maxlength="8" style="width: 70px" onkeypress="return AllowNumbersOnly(event)" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select class="form-control" style="width: 90px" data-ng-model="orderDetail.earlyFilltreatedsaltqtyType" disabled="disabled">
                                                             <option selected="selected" value="TONs">TONs</option>
                                                         </select>
                                                     </div>
@@ -443,7 +521,7 @@
                             <div class="col-md-10 col-md-offset-1" style="text-align: center; margin-top: 50px;">
                                 <div class="form-group">
                                     <h4 style="color: red">Failed to place order. Please try again.</h4>
-                                    <h5 style="color:red">If you continue to have trouble, please contact LuAnn Olson <b>LuAnn.Olson@state.mn.us</b> or <b>651/201-2447</b></h5>
+                                    <h5 style="color: red">If you continue to have trouble, please contact LuAnn Olson <b>LuAnn.Olson@state.mn.us</b> or <b>651/201-2447</b></h5>
                                 </div>
                             </div>
                         </div>
@@ -453,11 +531,247 @@
                         <div>
                             <div class="col-md-10 col-md-offset-1" style="text-align: center; margin-top: 50px;">
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Submit Order" style="width: 350px;" />
+                                    <input type="button" class="btn btn-primary btn-lg" value="Preview Order" onclick="showModal();" />
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="width: 1250px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Preview Salt Order</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <h5 style="color: red;">Be sure to carefully proofread your order confirmation. The quantities entered will be used in the solicitation and will obligate your municipality for the quantities entered.</h5>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <div class="col-md-12">
+                                                <h4>Order Placement</h4>
+                                                <p style="color: orange">List the primary contact information of individual who is responsible for order placement.</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Primary Agency Contact</th>
+                                                            <th>Email</th>
+                                                            <th>Direct Phone (Preferred)</th>
+                                                            <th>Alternate Phone (Other)</th>
+                                                            <th>Are you City / County / Other ?</th>
+                                                            <th>MnDOT District</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opagencypoc}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opemail}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opphone}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opalternatephone}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{oplocationtype}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;" id="lblDistrict"></label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="col-md-12">
+                                                <p style="color: orange">List alternative contact information.</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Agency Contact Alternate</th>
+                                                            <th>Email</th>
+                                                            <th>Direct Phone (Preferred)</th>
+                                                            <th>Alternate Phone</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opaltagencypoc}}</label></td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opaltemail}}</label></td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opaltphone}}</label></td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{opaltalternatephone}}</label>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div>
+                                            <div class="col-md-12">
+                                                <h4>Contract Obligation</h4>
+                                                <p style="color: orange">List the name and contact information for the individual authorized to contractually obligate your organization</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name</th>
+                                                            <th>Email</th>
+                                                            <th>Direct Phone (Preferred)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{coname}}</label></td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{coemail}}</label></td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{cophone}}</label></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="col-md-12">
+                                        <div>
+                                            <div class="col-md-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr><th>Name of Municipal Agency <br />(You may list multiple)</th>
+                                                            <th>Salt Delivery Street Address</th>
+                                                            <th style="width: 180px;">City</th>
+                                                            <th style="width: 100px;">Zip</th>
+                                                            <th style="width: 165px;">Unloading Method</th>
+                                                            <th style="width: 215px">UNTREATED SALT<br /> <small>Guarantee 80% min / 120% max</small><br />Estimated Annual Usage</th>
+                                                            <th style="width: 215px">TREATED SALT<br /><small>Guarantee 80% min / 120% max</small><br />Estimated Annual Usage</th>
+                                                            <th>Able to take Early Fill?</th>
+                                                            <th style="width: 215px">UNTREATED SALT Early Fill Quantity<br /></th>
+                                                            <th style="width: 215px">TREATED SALT Early Fill Quantity<br /></th></tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr data-ng-repeat="orderDetail in orderDetails">
+
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{orderDetail.name}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{orderDetail.address}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{orderDetail.city}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{orderDetail.zip}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <label style="font-size: 13px; font-weight: 200;">{{orderDetail.unloadmethod}}</label>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.untreatedsaltqty}}</label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.untreatedqtyType}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.treatedsaltqty}}</label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.treatedqtyType}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input style="align-content: center; width: 100px;" type="checkbox" data-ng-model="orderDetail.earlyFill" disabled="disabled" /></td>
+                                                            <td>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.earlyFilluntreatedsaltqty}}</label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.earlyFilluntreatedsaltqtyType}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-inline">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.earlyFilltreatedsaltqty}}</label>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label style="font-size: 13px; font-weight: 200;">{{orderDetail.earlyFilltreatedsaltqtyType}}</label>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="col-md-12">
+                                        <div>
+                                            <input type="checkbox" id="agree" name="agree"  onchange="EnableDisableSubmitOrder(this)" />
+                                            <label for="agree" style="display: inline;">I have verified my order details and I would like to finalize my order.</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <div class="col-md-10 col-md-offset-1" style="text-align: center; margin-top: 50px;">
+                                                <div class="form-group">
+                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel & Edit Order</button>
+                                                    <input type="submit" id="btnSubmitOrder" class="btn btn-primary" value="Submit Order" style="width: 350px;" disabled="disabled" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+
                 </form>
                 <div id="divSuccess" style="display: none; text-align: center;">
                     <h3 style="color: green">Order Placed Successfully</h3>
@@ -492,5 +806,21 @@
             e.preventDefault();
         }
     }
-</script>
+
+    function showModal() {
+        $('#lblDistrict').text($("#ddlMnDotDistrict option:selected").text());
+        $("#myModal").modal("show");
+    }
+
+    function EnableDisableSubmitOrder(chk) {
+        if($(chk).prop('checked')==true)
+        {
+            $('#btnSubmitOrder').prop("disabled", false);
+        }
+        else
+        {
+            $('#btnSubmitOrder').prop("disabled", true);
+        }
+    }
+ </script>
 </html>
