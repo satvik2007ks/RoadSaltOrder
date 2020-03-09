@@ -521,7 +521,7 @@
                             <div class="col-md-10 col-md-offset-1" style="text-align: center; margin-top: 50px;">
                                 <div class="form-group">
                                     <h4 style="color: red">Failed to place order. Please try again.</h4>
-                                    <h5 style="color: red">If you continue to have trouble, please contact LuAnn Olson <b>LuAnn.Olson@state.mn.us</b> or <b>651/201-2447</b></h5>
+                                    <h5 id="errorContact" runat="server" style="color: red"></h5>
                                 </div>
                             </div>
                         </div>

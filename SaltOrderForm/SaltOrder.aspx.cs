@@ -26,6 +26,12 @@ namespace SaltOrderForm
                 else
                 {
                     LoadMnDotDistrictDropDown();
+                    string qry = "Select * from SaltOrderContact";
+                    DataSet ds1 = dbLibrary.idGetCustomResult(qry);
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        errorContact.InnerText = "If you continue to have trouble, please contact " + ds1.Tables[0].Rows[0]["ContactName"].ToString() + " - " + ds1.Tables[0].Rows[0]["ContactEmail"].ToString() + " or " + ds1.Tables[0].Rows[0]["ContactPhone"].ToString() + "";
+                    }
                     MultiView1.SetActiveView(View2);
                 }
             }
@@ -55,11 +61,23 @@ namespace SaltOrderForm
                 divError.Attributes.Add("style", "display:none;");
                 Session["contactID"] = ds.Tables[0].Rows[0]["contactID"].ToString();
                 LoadMnDotDistrictDropDown();
+                string qry = "Select * from SaltOrderContact";
+                DataSet ds1 = dbLibrary.idGetCustomResult(qry);
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    errorContact.InnerText = "If you continue to have trouble, please contact "+ds1.Tables[0].Rows[0]["ContactName"].ToString()+ " - " + ds1.Tables[0].Rows[0]["ContactEmail"].ToString() + " or " + ds1.Tables[0].Rows[0]["ContactPhone"].ToString() + "";
+                }
                 MultiView1.SetActiveView(View2);
             }
             else
             {
-                lblError.Text = "Could not validate your emailID in our records. Please contact LuAnn Olson LuAnn.Olson@state.mn.us or 651/201-2447";
+                string qry = "Select * from SaltOrderContact";
+                DataSet ds1 = dbLibrary.idGetCustomResult(qry);
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    lblError.Text = "Could not validate your emailID in our records. Please contact " + ds1.Tables[0].Rows[0]["ContactName"].ToString() + " - " + ds1.Tables[0].Rows[0]["ContactEmail"].ToString() + " or " + ds1.Tables[0].Rows[0]["ContactPhone"].ToString() + "";
+                }
+                //lblError.Text = "Could not validate your emailID in our records. Please contact LuAnn Olson LuAnn.Olson@state.mn.us or 651-201-2447";
                 divError.Attributes.Add("style", "display:block;");
                 return;
             }
