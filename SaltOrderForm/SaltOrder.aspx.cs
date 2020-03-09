@@ -134,29 +134,29 @@ namespace SaltOrderForm
                     str += "<h4>Primary Contact Information</h4><br /><table style='border: 1px solid #333'> " +
                         "<thead><tr><th>Primary Agency Contact</th><th>Email</th><th>Direct Phone(Preferred)</th><th>Alternate Phone(Other)</th><th>Are you City / County / Other ?</th><th>MnDOT District</th></tr></thead> " +
                         " <tbody><tr> " +
-                        " <td><label style='font-size: 13px; font-weight: 200;'>" + opagencypoc + "</label> </td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + opemail + "</label></td> " +
-                        " <td><labelstyle='font-size:13px;font-weight:200;'>" + opphone + "</label></td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + opalternatephone + "</label></td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + oplocationtype + "</label></td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + districtname + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + opagencypoc + "</label> </td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + opemail + "</label></td> " +
+                        " <td style='text-align: center'><labelstyle='font-size:13px;font-weight:200;'>" + opphone + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + opalternatephone + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + oplocationtype + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + districtname + "</label></td> " +
                         " </tr></tbody></table>";
 
                     str += "<br /><br /><h4>Alternative Contact Information</h4><br /><table style='border: 1px solid #333'> " +
                         " <thead><tr><th>Agency Contact Alternate</th><th>Email</th><th>Direct Phone(Preferred)</th><th>Alternate Phone(Other)</th></tr></thead> " +
                         " <tbody><tr> " +
-                        " <td><label style='font-size: 13px; font-weight: 200;'>" + opaltagencypoc + "</label> </td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + opaltphone + "</label></td> " +
-                        " <td><labelstyle='font-size:13px;font-weight:200;'>" + opaltalternatephone + "</label></td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + opaltemail + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + opaltagencypoc + "</label> </td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + opaltphone + "</label></td> " +
+                        " <td style='text-align: center'><labelstyle='font-size:13px;font-weight:200;'>" + opaltalternatephone + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + opaltemail + "</label></td> " +
                         " </tr></tbody></table>";
 
                     str += "<br /><br /><h4>Contract Obligation</h4><br /><table style='border: 1px solid #333'> " +
                         " <thead><tr><th>Agency Contact Alternate</th><th>Email</th><th>Direct Phone</th></tr></thead> " +
                         " <tbody><tr> " +
-                        " <td><label style='font-size: 13px; font-weight: 200;'>" + coname + "</label> </td> " +
-                        " <td><label style='font-size:13px;font-weight:200;'>" + coemail + "</label></td> " +
-                        " <td><labelstyle='font-size:13px;font-weight:200;'>" + cophone + "</label></td> " +
+                        " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + coname + "</label> </td> " +
+                        " <td style='text-align: center'><label style='font-size:13px;font-weight:200;'>" + coemail + "</label></td> " +
+                        " <td style='text-align: center'><labelstyle='font-size:13px;font-weight:200;'>" + cophone + "</label></td> " +
                         " </tr></tbody></table>";
 
                     str += "<br /><br /><table style='border: 1px solid #333'> " +
@@ -179,16 +179,16 @@ namespace SaltOrderForm
                             earlyfilltreated = dr["earlyFilltreatedSaltQty"].ToString() + " " + dr["earlyFilltreatedSaltQtyType"].ToString();
                         }
                         str += "<tr> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["municipalAgencyName"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["streetAddress"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["city"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["zip"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["unloadingMethod"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["untreatedSaltQty"].ToString() + " " + dr["untreatedSaltQtyType"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + dr["treatedSaltQty"].ToString() + " " + dr["treatedSaltQtyType"].ToString() + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + earlyFill + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + earlyfilluntreated + "</label></td> " +
-                            " <td><label style='font-size: 13px; font-weight: 200;'>" + earlyfilltreated + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["municipalAgencyName"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["streetAddress"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["city"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["zip"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["unloadingMethod"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["untreatedSaltQty"].ToString() + " " + dr["untreatedSaltQtyType"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + dr["treatedSaltQty"].ToString() + " " + dr["treatedSaltQtyType"].ToString() + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + earlyFill + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + earlyfilluntreated + "</label></td> " +
+                            " <td style='text-align: center'><label style='font-size: 13px; font-weight: 200;'>" + earlyfilltreated + "</label></td> " +
                             " </tr>";
                     }
                     str += "</tbody></table><br /><br /><br />";
